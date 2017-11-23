@@ -21,14 +21,14 @@ public class Node {
         String yStr = String.valueOf(y);
         xStr = xStr.replace(".","");
         yStr = yStr.replace(".","");
-        this.id = Long.valueOf(xStr.substring(0,5) + yStr.substring(0,5));
+        this.id = Long.valueOf(xStr + yStr);
     }
 
     public String getNodeInfo(){
         return "X: " + x + " Y: " + y + " ID: " + id;
     }
 
-    public long getNodeId() {return id;}
+    long getNodeId() {return id;}
 
 
 }

@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         Node n = new Node(53.231423,21.421532412);
         Node m = new Node(54.324325, 21.543234);
         Log.wtf("test",n.getNodeInfo());
-        Log.wtf("test",n.getNodeInfo());
+        Log.wtf("test",m.getNodeInfo());
         Edge e = new Edge(n,m);
         Log.wtf("test",e.getEdgeInfo());
 
