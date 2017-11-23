@@ -10,6 +10,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kamcioikoalcia.routing.Graph.Edge;
 import com.kamcioikoalcia.routing.Graph.Node;
 
 import java.io.BufferedReader;
@@ -50,7 +51,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         BufferedReader reader = new BufferedReader(new InputStreamReader((getResources().openRawResource(R.raw.drogi))));
 
         Node n = new Node(53.231423,21.421532412);
+        Node m = new Node(54.324325, 21.543234);
         Log.wtf("test",n.getNodeInfo());
+        Log.wtf("test",n.getNodeInfo());
+        Edge e = new Edge(n,m);
+        Log.wtf("test",e.getEdgeInfo());
 
     }
 }
