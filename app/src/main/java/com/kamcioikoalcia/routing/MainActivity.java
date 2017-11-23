@@ -50,7 +50,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         BufferedReader reader = new BufferedReader(new InputStreamReader((getResources().openRawResource(R.raw.drogi))));
 
         Node n = new Node(53.231423,21.421532412);
-            Log.wtf("test",n.getNodeInfo());
+        Log.wtf("test",n.getNodeInfo());
 
     }
 }

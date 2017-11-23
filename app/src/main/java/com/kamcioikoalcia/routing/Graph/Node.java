@@ -28,5 +28,7 @@ public class Node {
         return "X: " + x + " Y: " + y + " ID: " + id;
     }
 
+    public long getNodeId() {return id;}
+
 
 }
