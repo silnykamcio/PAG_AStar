@@ -46,7 +46,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
         BufferedReader reader = new BufferedReader(new InputStreamReader((getResources().openRawResource(R.raw.drogi))));
+
+        ReadJson readJson = new ReadJson(reader);
+
+
         try {
             String line = reader.readLine();
             Log.wtf("test",line);
@@ -55,4 +61,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
     }
+
+
 }
