@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://C:\Users\Kamil\Desktop\Routing\PAG_AStar.iml" filepath="C:\Users\Kamil\Desktop\Routing\PAG_AStar.iml" />
       <module fileurl="file://$PROJECT_DIR$/Routing.iml" filepath="$PROJECT_DIR$/Routing.iml" />
+      <module fileurl="file://C:\Users\Alicja\StudioProjects\PAG_AStar\Routing.iml" filepath="C:\Users\Alicja\StudioProjects\PAG_AStar\Routing.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Alicja\StudioProjects\PAG_AStar\app\app.iml" filepath="C:\Users\Alicja\StudioProjects\PAG_AStar\app\app.iml" />
     </modules>
   </component>
 </project>
