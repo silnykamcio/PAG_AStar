@@ -10,6 +10,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kamcioikoalcia.routing.Graph.Edge;
+import com.kamcioikoalcia.routing.Graph.Node;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,13 +48,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        BufferedReader reader = new BufferedReader(new InputStreamReader((getResources().openRawResource(R.raw.drogi))));
-        try {
-            String line = reader.readLine();
-            Log.wtf("test",line);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader((getResources().openRawResource(R.raw.drogi))));
+        ReadJson readJson = new ReadJson(reader);
     }
+
+
 }
