@@ -6,30 +6,22 @@ import android.util.Log;
 import com.kamcioikoalcia.routing.Graph.Edge;
 import com.kamcioikoalcia.routing.Graph.Node;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import org.json.JSONArray;
-import org.json.JSONTokener;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
 /**
  * Created by Alicja on 23.11.2017.
+ *
  */
 
-public class ReadJson{
+class ReadJson{
 
-HashSet<Node>nodes;
-HashSet<Edge>edges;
-    public ReadJson(BufferedReader jsonFile){
-        nodes = new HashSet<Node>();
-        edges = new HashSet<Edge>();
+    ReadJson(BufferedReader jsonFile){
+        HashSet<Node> nodes = new HashSet<Node>();
+        HashSet<Edge> edges = new HashSet<Edge>();
 
         StringBuilder total = new StringBuilder(2048);
         String line;
@@ -59,11 +51,10 @@ HashSet<Edge>edges;
                             jsonReader.beginObject();
                             while (jsonReader.hasNext()) {
                                 String name2 = jsonReader.nextName();
-
                                 if (Objects.equals(name2, "coordinates")) {
-                                    Node n=  new Node(0,0);
-                                    Node n1 = new Node (0,0);
                                     jsonReader.beginArray();
+                                    Node n;
+                                    Node n1 = new Node (0,0);
                                     while (jsonReader.hasNext()) {
                                         jsonReader.beginArray();
                                         Double x = jsonReader.nextDouble();
@@ -71,15 +62,10 @@ HashSet<Edge>edges;
                                         n = new Node(x,y);
                                         nodes.add(new Node(x,y));
                                         jsonReader.endArray();
+                                        if (nodes.size()%2 == 0) edges.add(new Edge(n1,n));
+                                        else n1 = n;
                                     }
                                     jsonReader.endArray();
-                                    if(nodes.size()%2 == 0){
-                                        edges.add(new Edge(n1,n));
-                                    }
-                                    else
-                                    {
-                                        n1 = n;
-                                    }
                                 } else
                                     jsonReader.skipValue();
                             }
