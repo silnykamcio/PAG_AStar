@@ -70,8 +70,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             ObjectInputStream ois2 = new ObjectInputStream(is2);
             saveWays = (HashMap<Long, SaveWay>)ois.readObject();
             saveNodes = (HashSet<SaveNode>)ois2.readObject();
-            Log.wtf("test", ""+saveWays.size());
-            Log.wtf("test", ""+saveNodes.size());
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
