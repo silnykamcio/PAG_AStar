@@ -44,7 +44,7 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
     public void addEdgeId(Long id){edgeIds.add(id);}
     public void addNeighbour(GraphVertex n) {neighbours.add(n);}
     public HashSet<Long> getEdgeIds(){return edgeIds;}
-    Set<GraphVertex> getNeighbours(){return neighbours;}
+    public Set<GraphVertex> getNeighbours(){return neighbours;}
     @Override
     public int hashCode() {
         final int prime = 31;
