@@ -33,7 +33,7 @@ public class GraphEdge implements Comparable<GraphEdge> {
     GraphVertex getSource(){
         return src;
     }
-    int getWeight() {
+    public int getWeight() {
         return weight;
     }
     public double getDistance() { return  distance;}

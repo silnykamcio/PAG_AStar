@@ -2,6 +2,9 @@ package com.geoida.progeo.RouteGenerating.Dijkstra;
 
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,19 +18,24 @@ import java.util.Set;
 public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVertex> {
     final private Long id;
     private double cost;
+    private double heuristic;
     private int distance;
+    private LatLng coords;
     private HashSet<Long> edgeIds;
     private HashSet<GraphVertex> neighbours;
 
     public GraphVertex(){this.id = null;}
 
-    public GraphVertex(Long id)
+    public GraphVertex(Long id, LatLng coords)
     {
         this.cost = Double.MAX_VALUE;
         this.id = id;
         edgeIds = new HashSet<>();
         neighbours = new HashSet<>();
+        this.coords = coords;
     }
+
+
 
 
     public void changeCost(double cost){
@@ -77,5 +85,17 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
             return -1;
         }
         return 1;
+    }
+
+    public double getHeuristic() {
+        return heuristic;
+    }
+
+    public void setHeuristic(double heuristic) {
+        this.heuristic = heuristic;
+    }
+
+    public LatLng getCoords() {
+        return coords;
     }
 }

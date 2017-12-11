@@ -51,22 +51,21 @@ class WeightsMaker {
             float crossPref = (float)gp.getCrossRoadsPriority()/100;
             float greenPref = (float)gp.getGreenPriority()/100;
 
-            double routeWeight = 0;
-            if (goodWays.contains(type)) routeWeight = waysPref;
-            else if (mediumWays.contains(type)) routeWeight = waysPref*1.5;
-            else routeWeight = waysPref*2;
+        double routeWeight = 0;
+        if (goodWays.contains(type)) routeWeight = waysPref;
+        else if (mediumWays.contains(type)) routeWeight = waysPref*1.5;
+        else routeWeight = waysPref*2;
 
 
-            double greenWeight = 0;
-            greenWeight = (2 - w.getGreenLevel())*greenPref;
+        double greenWeight = 0;
+        greenWeight = (2 - w.getGreenLevel())*greenPref;
 
-            weight = 1 + (routeWeight + greenWeight);
-            //System.out.println("distance: " + w.getDistance());
-            weight *= w.getDistance();
-            double crossingWeight = 0;
-            crossingWeight =  1 + (w.getCrossings()*crossPref);
-            weight *= crossingWeight;
-            //Log.wtf("WeightsMaker", "Weight: " + weight);
+        double crossingWeight = 0;
+        crossingWeight =  (1 + w.getCrossings())*crossPref;
+
+        weight = 1 + (routeWeight + greenWeight + crossingWeight);
+        //System.out.println("distance: " + w.getDistance());
+        weight *= w.getDistance();
             return weight;
     }
 }
