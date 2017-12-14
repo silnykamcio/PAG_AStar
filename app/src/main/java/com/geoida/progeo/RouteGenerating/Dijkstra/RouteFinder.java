@@ -3,6 +3,7 @@ package com.geoida.progeo.RouteGenerating.Dijkstra;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,8 +119,8 @@ public class RouteFinder {
      * @param target Target
      * @return List with nodes
      */
-    public LinkedList<GraphVertex> getPath(GraphVertex target){
-        LinkedList<GraphVertex> path = new LinkedList<>();
+    public ArrayList<GraphVertex> getPath(GraphVertex target){
+        ArrayList<GraphVertex> path = new ArrayList<>();
         GraphVertex step = target;
         path.add(step);
         while(predecessors.get(step)!=null){

@@ -90,7 +90,7 @@ public class AStarAlgorithm {
                 else if(tentativeScore < y.getCost()){
                     tentativeBetter = true;
                 }
-                if(tentativeBetter == true){
+                if(tentativeBetter){
                     predecessors.put(y, x);
                     y.changeCost(tentativeScore);
                     //f_score[y] := g_score[y] + h_score[y] waiting for Kamcio
