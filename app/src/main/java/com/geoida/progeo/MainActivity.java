@@ -86,7 +86,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         Log.wtf("test", ""+ways.size());
         Log.wtf("test", ""+nodes.size());
-        generatingPreferences = new GeneratingPreferences(50,50,50,new LatLng(52.21766,20.9781),new LatLng(52.204237, 20.975813));
+        generatingPreferences = new GeneratingPreferences(50,50,50,new LatLng(52.258210, 21.021865),new LatLng(52.214484, 20.979801));
         modelMaker = new ModelMaker(ways,nodes,this,generatingPreferences);
         modelMaker.execute();
 
