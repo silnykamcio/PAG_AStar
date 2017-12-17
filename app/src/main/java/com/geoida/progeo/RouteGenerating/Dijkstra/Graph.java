@@ -18,7 +18,7 @@ public class Graph {
         this.edges = edges;
     }
 
-    int getVertexCount() {return vertexes.size();}
+    public int getVertexCount() {return vertexes.size();}
     public void showGraphInfo(){
         System.out.println("Graph vertices:");
         int i = 1;
