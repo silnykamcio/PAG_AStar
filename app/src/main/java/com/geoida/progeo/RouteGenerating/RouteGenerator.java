@@ -141,18 +141,18 @@ public class RouteGenerator extends AsyncTask<Void, Void, String> {
         Stoper.stop();
         Log.wtf("RouteGenerating", "Graph elements created");
         Stoper.start("RouteFinder");
-        RouteFinder rf = new RouteFinder(g);
+        //RouteFinder rf = new RouteFinder(g);
         Log.wtf("RouteGenerating", "RouteFinder initialized");
-        //AStarAlgorithm aStar = new AStarAlgorithm(g);
+        AStarAlgorithm aStar = new AStarAlgorithm(g);
         paths = new ArrayList<>();
-       // paths.add(aStar.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()),vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
-        rf.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()));
+        paths.add(aStar.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()),vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
+        //rf.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()));
         Stoper.stop();
         Log.wtf("RouteGenerating", "RouteFinder computed");
         Stoper.start("RouteSearching");
-         paths = null;
-        paths = new ArrayList<>();
-        paths.add(rf.getPath(vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
+       // paths = null;
+        //paths = new ArrayList<>();
+        //paths.add(rf.getPath(vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
         Log.wtf("path", ""+paths.size());
         Stoper.stop();
     }
