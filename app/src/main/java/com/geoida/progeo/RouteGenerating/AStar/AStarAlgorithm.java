@@ -25,7 +25,11 @@ public class AStarAlgorithm {
     private PriorityQueue<GraphVertex> notVisited;
     private Map<GraphVertex, GraphVertex> predecessors;
 
+    private int crossingsCounter;
+    private double prevGreenLvl;
+
     public AStarAlgorithm(Graph graph){
+        crossingsCounter = 0;
         edges = graph.getEdges();
         notVisited = new PriorityQueue<>(graph.getVertexCount(), new GraphVertex());
         System.out.println("Nodes count: " + graph.getVertexCount());
@@ -51,7 +55,17 @@ public class AStarAlgorithm {
         HashSet<Long> aIds = new HashSet<>(node.getEdgeIds());
         HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
         aIds.retainAll(bIds);
-        return edges.get(aIds.iterator().next()).getWeight();
+        //GraphEdge e =  edges.get(aIds.iterator().next());
+//        crossingsCounter += e.getCrossings();
+//        prevGreenLvl = e.getGreenLevel();
+//        if(prevGreenLvl > 0.5)
+//            return e.getWeight()*((int)(1+e.getGreenLevel()));
+//        else
+            return edges.get(aIds.iterator().next()).getWeight();
+//        if(e.getCrossings() != 0)
+//            return  e.getWeight()*crossingsCounter;
+//        else
+//            return e.getWeight();
     }
 
     private double computeHeuristics(GraphVertex n, GraphVertex end){

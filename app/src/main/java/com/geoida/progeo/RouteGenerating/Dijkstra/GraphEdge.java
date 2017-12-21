@@ -28,7 +28,6 @@ public class GraphEdge implements Comparable<GraphEdge> {
         this.greenLevel = greenLevel;
         this.crossings = crossings;
         this.quality = quality;
-
     }
 
     public String getId() {
@@ -72,5 +71,17 @@ public class GraphEdge implements Comparable<GraphEdge> {
             return -1;
         }
         return 1;
+    }
+
+    public double getGreenLevel() {
+        return greenLevel;
+    }
+
+    public int getCrossings() {
+        return crossings;
+    }
+
+    public double getQuality() {
+        return quality;
     }
 }
