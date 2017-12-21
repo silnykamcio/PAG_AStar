@@ -3,17 +3,19 @@ package com.geoida.progeo.RouteGenerating.AStar;
 import com.geoida.progeo.RouteGenerating.Dijkstra.Graph;
 import com.geoida.progeo.RouteGenerating.Dijkstra.GraphEdge;
 import com.geoida.progeo.RouteGenerating.Dijkstra.GraphVertex;
+import com.geoida.progeo.Utils.Stoper;
+import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
  * Created by Alicja on 10.12.2017.
+ * Class that generates route with use of A* Algorithm
  */
 
 public class AStarAlgorithm {
@@ -25,16 +27,18 @@ public class AStarAlgorithm {
 
     public AStarAlgorithm(Graph graph){
         edges = graph.getEdges();
-        notVisited = new PriorityQueue<GraphVertex>(graph.getVertexCount(),new GraphVertex());
+        notVisited = new PriorityQueue<>(graph.getVertexCount(), new GraphVertex());
+        System.out.println("Nodes count: " + graph.getVertexCount());
+        predecessors = new HashMap<>();
     }
 
     private GraphVertex findMin(){
         return notVisited.remove();
     }
 
-    private List<GraphVertex> reconstructPath(GraphVertex startV, GraphVertex endV){
-        List<GraphVertex> path;
-        path = new ArrayList<GraphVertex>();
+    private ArrayList<GraphVertex> reconstructPath(GraphVertex startV, GraphVertex endV){
+        ArrayList<GraphVertex> path;
+        path = new ArrayList<>();
         path.add(endV);
         while (!path.contains(startV)){
             path.add(predecessors.get(endV));
@@ -43,7 +47,18 @@ public class AStarAlgorithm {
         return path;
     }
 
-    public List<GraphVertex> compute(GraphVertex startVertex, GraphVertex endVertex){
+    private int getWeight(GraphVertex node, GraphVertex target){
+        HashSet<Long> aIds = new HashSet<>(node.getEdgeIds());
+        HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
+        aIds.retainAll(bIds);
+        return edges.get(aIds.iterator().next()).getWeight();
+    }
+
+    private double computeHeuristics(GraphVertex n, GraphVertex end){
+        return SphericalUtil.computeDistanceBetween(n.getCoords(),end.getCoords());
+    }
+
+    public ArrayList<GraphVertex> compute(GraphVertex startVertex, GraphVertex endVertex){
         startVertex.changeCost(0);
         notVisited.add(startVertex);
         visited = new HashSet<GraphVertex>();
@@ -52,25 +67,24 @@ public class AStarAlgorithm {
             if( x.equals(endVertex)){
                 return reconstructPath(startVertex, endVertex);
             }
+            notVisited.remove(x);
             visited.add(x);
+
             for(GraphVertex y:x.getNeighbours()){
                 if(visited.contains(y)){
                     continue;
                 }
-                Double tentativeScore = x.getCost(); // + function TODO by Kamcio
+                Double tentativeScore = x.getCost() + getWeight(x,y);
                 Boolean tentativeBetter = false;
-                if (!notVisited.contains(y)){
+
+                if(tentativeScore < y.getCost()){
                     notVisited.add(y);
-                    //h_score[y] := heuristic_estimate_of_distance_to_goal_from(y) TODO by Kamcio
+                    y.setHeuristic(computeHeuristics(y,endVertex));
                     tentativeBetter = true;
                 }
-                else if(tentativeScore < y.getCost()){
-                    tentativeBetter = true;
-                }
-                if(tentativeBetter == true){
+                if(tentativeBetter){
                     predecessors.put(y, x);
                     y.changeCost(tentativeScore);
-                    //f_score[y] := g_score[y] + h_score[y] waiting for Kamcio
                 }
             }
 

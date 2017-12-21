@@ -8,6 +8,7 @@ import android.util.Log;
 import com.geoida.progeo.Callbacks.OnThreadFinished;
 import com.geoida.progeo.OSM.OSMObjects.Node;
 import com.geoida.progeo.OSM.OSMObjects.Way;
+import com.geoida.progeo.RouteGenerating.AStar.AStarAlgorithm;
 import com.geoida.progeo.RouteGenerating.Dijkstra.Graph;
 import com.geoida.progeo.RouteGenerating.Dijkstra.GraphEdge;
 import com.geoida.progeo.RouteGenerating.Dijkstra.GraphVertex;
@@ -31,16 +32,16 @@ import java.util.Objects;
 public class RouteGenerator extends AsyncTask<Void, Void, String> {
 
     private OnThreadFinished listener;
-    private ArrayList<LinkedList<GraphVertex>> paths;
+    private ArrayList<ArrayList<GraphVertex>> paths;
     private HashSet<Node> nodes;
     private HashMap<Long,Way> propWays;
     private HashMap<Long,GraphEdge> edges;
     private HashMap<Long,GraphVertex> vertices;
     private GeneratingPreferences GP;
 
-    public ArrayList<LinkedList<GraphVertex>> getPaths(){return paths;}
+    public ArrayList<ArrayList<GraphVertex>> getPaths(){return paths;}
 
-    public LinkedList<GraphVertex> getPath(int num){return paths.get(num);}
+    public ArrayList<GraphVertex> getPath(int num){return paths.get(num);}
 
     public int getPathsCount(){
             return paths.size();
@@ -55,7 +56,7 @@ public class RouteGenerator extends AsyncTask<Void, Void, String> {
      */
     public ArrayList<LatLng> getPathAsPositions(int num) {
         ArrayList<LatLng> pos = new ArrayList<>();
-        LinkedList<GraphVertex> path = paths.get(num);
+        ArrayList<GraphVertex> path = paths.get(num);
         for(int i= 0; i<path.size()-1;i++) {
             GraphVertex a = path.get(i);
             GraphVertex b = path.get(i+1);
@@ -82,7 +83,7 @@ public class RouteGenerator extends AsyncTask<Void, Void, String> {
 
     public ArrayList<Way> getPathAsWays(int num){
         ArrayList<Way> ways = new ArrayList<>();
-        LinkedList<GraphVertex> path = paths.get(num);
+        ArrayList<GraphVertex> path = paths.get(num);
         for(int i = 0; i<path.size()-1;i++){
             GraphVertex a = path.get(i);
             GraphVertex b = path.get(i+1);
@@ -140,16 +141,18 @@ public class RouteGenerator extends AsyncTask<Void, Void, String> {
         Stoper.stop();
         Log.wtf("RouteGenerating", "Graph elements created");
         Stoper.start("RouteFinder");
-        RouteFinder rf = new RouteFinder(g);
+        //RouteFinder rf = new RouteFinder(g);
         Log.wtf("RouteGenerating", "RouteFinder initialized");
-
-        rf.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()));
+        AStarAlgorithm aStar = new AStarAlgorithm(g);
+        paths = new ArrayList<>();
+        paths.add(aStar.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()),vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
+        //rf.compute(vertices.get(getClosest(nodes,GP.getStartPoint()).getID()));
         Stoper.stop();
         Log.wtf("RouteGenerating", "RouteFinder computed");
         Stoper.start("RouteSearching");
        // paths = null;
-        paths = new ArrayList<>();
-        paths.add(rf.getPath(vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
+        //paths = new ArrayList<>();
+        //paths.add(rf.getPath(vertices.get(getClosest(nodes,GP.getEndPoint()).getID())));
         Log.wtf("path", ""+paths.size());
         Stoper.stop();
     }

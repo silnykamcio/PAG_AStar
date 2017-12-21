@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/PAG.iml" filepath="$PROJECT_DIR$/.idea/PAG.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PAG.iml" filepath="$PROJECT_DIR$/PAG.iml" />
+      <module fileurl="file://C:\Users\Kamil\StudioProjects\PAG_AStar\.idea\PAG.iml" filepath="C:\Users\Kamil\StudioProjects\PAG_AStar\.idea\PAG.iml" />
+      <module fileurl="file://C:\Users\Alicja\StudioProjects\PAG\PAG_AStar.iml" filepath="C:\Users\Alicja\StudioProjects\PAG\PAG_AStar.iml" />
       <module fileurl="file://C:\Users\Alicja\StudioProjects\PAG\ProGeo2.iml" filepath="C:\Users\Alicja\StudioProjects\PAG\ProGeo2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

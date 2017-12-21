@@ -5,6 +5,7 @@ import android.location.Location;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -115,6 +116,25 @@ public class Way implements Serializable {
 
     public int getCrossings() {
         return crossings;
+    }
+
+    public double getQuality(){
+
+        HashSet<String> goodWays;
+        HashSet<String> mediumWays;
+        goodWays = new HashSet<>();
+        mediumWays = new HashSet<>();
+        goodWays.add("path");
+        goodWays.add("footway");
+        goodWays.add("bridleway");
+        goodWays.add("cycleway");
+        mediumWays.add("track");
+        mediumWays.add("living_street");
+        mediumWays.add("residental");
+        mediumWays.add("unclassified");
+        if(goodWays.contains(TYPE)) return (1);
+        else if(mediumWays.contains(TYPE)) return  (1.5);
+        else return (2);
     }
 
 //    public String getEnviroType() {

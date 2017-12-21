@@ -12,6 +12,6 @@ class GraphVertexMaker {
     GraphVertexMaker(){}
 
     GraphVertex convert(Node n){
-        return new GraphVertex(n.getID());
+        return new GraphVertex(n.getID(), n.getCoords());
     }
 }

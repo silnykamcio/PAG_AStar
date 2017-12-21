@@ -13,15 +13,22 @@ public class GraphEdge implements Comparable<GraphEdge> {
     private final String id;
     private final GraphVertex src;
     private final GraphVertex dest;
-    private  int weight;
+    private int weight;
     private final double distance;
+    private double greenLevel;
+    private int crossings;
+    private double quality;
 
-    public GraphEdge(String id, GraphVertex src, GraphVertex dest, int weight, double distance){
+    public GraphEdge(String id, GraphVertex src, GraphVertex dest, int weight, double distance, double greenLevel, int crossings, double quality){
         this.id = id;
         this.src = src;
         this.dest = dest;
         this.weight = weight;
         this.distance = distance;
+        this.greenLevel = greenLevel;
+        this.crossings = crossings;
+        this.quality = quality;
+
     }
 
     public String getId() {
@@ -33,7 +40,7 @@ public class GraphEdge implements Comparable<GraphEdge> {
     GraphVertex getSource(){
         return src;
     }
-    int getWeight() {
+    public int getWeight() {
         return weight;
     }
     public double getDistance() { return  distance;}

@@ -43,7 +43,7 @@ class GraphEdgeMaker {
         for(Way w : ways.values()){
             Node src = w.GetCrossNodes().get(0);
             Node dest = w.GetCrossNodes().get(w.GetCrossNodes().size()-1);
-            edges.put(w.getID(),new GraphEdge(Long.toString(w.getID()),vertexes.get(src.getID()),vertexes.get(dest.getID()),(int)new WeightsMaker().convert(w,gp),w.getDistance()));
+            edges.put(w.getID(),new GraphEdge(Long.toString(w.getID()),vertexes.get(src.getID()),vertexes.get(dest.getID()),(int)new WeightsMaker().convert(w,gp),w.getDistance(), w.getGreenLevel(), w.getCrossings(), w.getQuality()));
         }
         return edges;
     }
