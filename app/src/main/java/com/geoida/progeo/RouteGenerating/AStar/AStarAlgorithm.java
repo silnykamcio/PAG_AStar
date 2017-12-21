@@ -55,13 +55,17 @@ public class AStarAlgorithm {
         HashSet<Long> aIds = new HashSet<>(node.getEdgeIds());
         HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
         aIds.retainAll(bIds);
-        //GraphEdge e =  edges.get(aIds.iterator().next());
-//        crossingsCounter += e.getCrossings();
-//        prevGreenLvl = e.getGreenLevel();
-//        if(prevGreenLvl > 0.5)
-//            return e.getWeight()*((int)(1+e.getGreenLevel()));
-//        else
-            return edges.get(aIds.iterator().next()).getWeight();
+        GraphEdge e =  edges.get(aIds.iterator().next());
+        crossingsCounter += e.getCrossings();
+        int weight;
+        if(prevGreenLvl > 0.5) {
+            weight =  e.getWeight() * ((int) (1 + (1-e.getGreenLevel())));
+        }
+        else {
+            weight =e.getWeight();
+        }
+        prevGreenLvl = e.getGreenLevel();
+        return weight;
 //        if(e.getCrossings() != 0)
 //            return  e.getWeight()*crossingsCounter;
 //        else
@@ -81,7 +85,6 @@ public class AStarAlgorithm {
             if( x.equals(endVertex)){
                 return reconstructPath(startVertex, endVertex);
             }
-            notVisited.remove(x);
             visited.add(x);
 
             for(GraphVertex y:x.getNeighbours()){
