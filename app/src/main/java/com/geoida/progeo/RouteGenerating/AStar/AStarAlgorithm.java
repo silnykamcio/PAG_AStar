@@ -57,19 +57,29 @@ public class AStarAlgorithm {
         aIds.retainAll(bIds);
         GraphEdge e =  edges.get(aIds.iterator().next());
         crossingsCounter += e.getCrossings();
-        int weight;
-        if(prevGreenLvl > 0.5) {
-            weight =  e.getWeight() * ((int) (1 + (1-e.getGreenLevel())));
+//        int weight;
+//        if(prevGreenLvl > 0.5) {
+//            weight =  e.getWeight() * ((int) (1 + (1-e.getGreenLevel())));
+//        }
+//        else {
+//            weight =e.getWeight();
+//        }
+//        prevGreenLvl = e.getGreenLevel();
+//        return weight;
+        if(e.getCrossings() != 0) {
+            System.out.println(node.getCrossCost());
+            return e.getWeight() * node.getCrossCost();
         }
-        else {
-            weight =e.getWeight();
-        }
-        prevGreenLvl = e.getGreenLevel();
-        return weight;
-//        if(e.getCrossings() != 0)
-//            return  e.getWeight()*crossingsCounter;
-//        else
-//            return e.getWeight();
+        else
+            return e.getWeight();
+    }
+
+    private int getCrossWeight(GraphVertex node, GraphVertex target){
+        HashSet<Long> aIds = new HashSet<>(node.getEdgeIds());
+        HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
+        aIds.retainAll(bIds);
+        GraphEdge e =  edges.get(aIds.iterator().next());
+        return e.getCrossings();
     }
 
     private double computeHeuristics(GraphVertex n, GraphVertex end){
@@ -91,6 +101,7 @@ public class AStarAlgorithm {
                 if(visited.contains(y)){
                     continue;
                 }
+                Integer crossingsScore = x.getCrossCost() + getCrossWeight(x,y);
                 Double tentativeScore = x.getCost() + getWeight(x,y);
                 Boolean tentativeBetter = false;
 
@@ -102,6 +113,7 @@ public class AStarAlgorithm {
                 if(tentativeBetter){
                     predecessors.put(y, x);
                     y.changeCost(tentativeScore);
+                    y.changeCrossCost(crossingsScore);
                 }
             }
 
