@@ -24,12 +24,10 @@ public class AStarAlgorithm {
     private Set<GraphVertex> visited;
     private PriorityQueue<GraphVertex> notVisited;
     private Map<GraphVertex, GraphVertex> predecessors;
-
-    private int crossingsCounter;
+    private double geomDist;
     private double prevGreenLvl;
 
     public AStarAlgorithm(Graph graph){
-        crossingsCounter = 0;
         edges = graph.getEdges();
         notVisited = new PriorityQueue<>(graph.getVertexCount(), new GraphVertex());
         System.out.println("Nodes count: " + graph.getVertexCount());
@@ -41,6 +39,7 @@ public class AStarAlgorithm {
     }
 
     private ArrayList<GraphVertex> reconstructPath(GraphVertex startV, GraphVertex endV){
+        geomDist = SphericalUtil.computeDistanceBetween(startV.getCoords(),endV.getCoords());
         ArrayList<GraphVertex> path;
         path = new ArrayList<>();
         path.add(endV);
@@ -56,7 +55,6 @@ public class AStarAlgorithm {
         HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
         aIds.retainAll(bIds);
         GraphEdge e =  edges.get(aIds.iterator().next());
-        crossingsCounter += e.getCrossings();
 //        int weight;
 //        if(prevGreenLvl > 0.5) {
 //            weight =  e.getWeight() * ((int) (1 + (1-e.getGreenLevel())));
@@ -66,9 +64,15 @@ public class AStarAlgorithm {
 //        }
 //        prevGreenLvl = e.getGreenLevel();
 //        return weight;
-        if(e.getCrossings() != 0) {
-            return e.getWeight() * node.getCrossCost()*2;
+        if(node.getGreenCost() > geomDist*0.5){
+            return e.getWeight() * ((int) (1 + (1+e.getGreenLevel())*4));
         }
+        else if(node.getGreenCost() > geomDist*0.05){
+            return e.getWeight() * ((int) (1 + (1-e.getGreenLevel())*4));
+        }
+//        if(e.getCrossings() != 0) {
+//            return e.getWeight() * node.getCrossCost()*2;
+//        }
         else
             return e.getWeight();
     }
@@ -80,6 +84,15 @@ public class AStarAlgorithm {
         GraphEdge e =  edges.get(aIds.iterator().next());
         return e.getCrossings();
     }
+
+    private double getGreenWeight(GraphVertex node, GraphVertex target){
+        HashSet<Long> aIds = new HashSet<>(node.getEdgeIds());
+        HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
+        aIds.retainAll(bIds);
+        GraphEdge e =  edges.get(aIds.iterator().next());
+        return e.getGreenLevel()*e.getDistance();
+    }
+
 
     private double computeHeuristics(GraphVertex n, GraphVertex end){
         return SphericalUtil.computeDistanceBetween(n.getCoords(),end.getCoords());
@@ -101,6 +114,7 @@ public class AStarAlgorithm {
                     continue;
                 }
                 Integer crossingsScore = x.getCrossCost() + getCrossWeight(x,y);
+                Double greenScore = x.getGreenCost() + getGreenWeight(x,y);
                 Double tentativeScore = x.getCost() + getWeight(x,y);
                 Boolean tentativeBetter = false;
 
@@ -113,6 +127,7 @@ public class AStarAlgorithm {
                     predecessors.put(y, x);
                     y.changeCost(tentativeScore);
                     y.changeCrossCost(crossingsScore);
+                    y.changeGreenCost(greenScore);
                 }
             }
 

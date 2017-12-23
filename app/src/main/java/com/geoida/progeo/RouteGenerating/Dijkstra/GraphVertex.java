@@ -21,6 +21,7 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
     private double heuristic;
     private int distance;
     private int crossCost;
+    private double greenCost;
 
     private LatLng coords;
     private HashSet<Long> edgeIds;
@@ -41,6 +42,7 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
 
 
     public void changeCrossCost(int crossCost) {this.crossCost = crossCost;}
+    public void changeGreenCost(double greenCost) {this.greenCost = greenCost;}
     public void changeCost(double cost){
         this.cost = cost;
     }
@@ -104,5 +106,9 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
 
     public int getCrossCost() {
         return crossCost;
+    }
+
+    public double getGreenCost() {
+        return greenCost;
     }
 }
