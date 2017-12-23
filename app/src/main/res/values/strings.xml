@@ -1,4 +1,127 @@
 <resources>
-    <string name="app_name">ProGeo</string>
-    <string name="title_activity_main">Map</string>
+    <string name="app_name" translatable="false">ReadyToGo</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="new_route">Create new route</string>
+
+    <string name="welcome">Hello!</string>
+    <string name="saved_routes">Saved routes:</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_report_bug">Report problem</string>
+    <!--Summary screen-->
+    <string name="distance">Distance</string>
+    <string name="height">Height</string>
+    <string name="route_quality">Routes quality</string>
+    <string name="crossroads">Crossroads</string>
+    <string name="green_level">Green level</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="question1">What You want to do?</string>
+    <string name="generate">Generate route</string>
+    <string name="mark">Choose route manually</string>
+    <string name="question2">Where will be finish line?</string>
+    <string name="optionStartPoint">In start point</string>
+    <string name="optionEndPoint">In other place</string>
+    <string name="whatever">I don\'t care</string>
+    <string name="question2_distance">How long route should be?</string>
+    <string name="startPoint">Mark start</string>
+    <string name="endPoint">Mark finish</string>
+    <string name="question4">Your preferences:</string>
+    <string name="no_crossroads">Avoid crossroads</string>
+
+    <string name="route_name">Route name</string>
+    <string name="save_route">Save</string>
+    <string name="generating_problem">Problem with generating :(. Please report this issue.</string>
+    <string name="wait_for_location_annotation">Please, wait for location</string>
+    <string name="service_missing_error">Error: SERVICE MISSING. Please report this problem.</string>
+    <string name="update_required_error">Error: UPDATE REQUIRED. Please report this problem</string>
+    <string name="start_not_choosed_information">Please choose start point first.</string>
+    <string name="start_or_finish_not_choosed_information">Please choose start and finish points first (start have to be at least 100 meters form finish)</string>
+    <string name="manual_route_too_short">Choosed route is too short. Please mark some more points</string>
+    <string name="route_compute_starting">Starting…</string>
+    <string name="route_compute_downloading">Downloading data…</string>
+    <string name="route_compute_parsing">Parsing data…</string>
+    <string name="route_compute_model_making">Making model…</string>
+    <string name="route_compute_generating">Generating route…</string>
+    <string name="crossings_level_1">A few</string>
+    <string name="crossings_level_2">Some</string>
+    <string name="crossings_level_3">Medium</string>
+    <string name="crossings_level_4">Much</string>
+    <string name="crossings_level_5">A lot</string>
+    <string name="lucky_shot">Lucky shot</string>
+    <string name="faq" translatable="false">FAQ</string>
+
+    <string name="faq_text" translatable="false"><![CDATA[
+        <h4>Dla kogo jest ta aplikacja?</h4>
+        <p>Aplikacja jest przeznaczona dla sportowców, zwłaszcza biegaczy, którzy korzystają z publicznych dróg.<br>
+            Celem aplikacji jest dostarczenie informacji, gdzie w okolicy jest najlepsza trasa do uprawiania sportu.</p>
+
+        <h4>Dlaczego tak długo trzeba czekać na wyniki?</h4>
+        <p>Żeby wybrać najbardziej optymalną trasę aplikacja musi przeanalizować wszystkie dostępne ścieżki i ulice w okolicy.<br>
+        Dane na ich temat pochodzą z wielu zróżnicowanych źródeł, a nastęnie są w kilku etapach
+        analizowane przez zaawansowane algorytmy geoinformatyczne.<br>
+        Wszystko to wymaga czasu oraz mocy obliczeniowej, więc na uzyskanie wyników trzeba czasami poczekać nawet kilkadziesiąt sekund.<br>
+        Istnieje możliwość przeniesienia części z tych operacji z telefonu użytkownika na zewnętrzny serwer,
+        ale aktualnie nie dysponujemy środkami na jego opłacenie.<br>
+        Dlatego na razie ograniczyliśmy maksymalną długość poszukiwanych tras do 10Km.</p>
+
+        <h4>Czy aplikacja pobiera dużo danych z internetu?</h4>
+        <p>Zazwyczaj do wygenerowania trasy potrzeba mniej niż 1Mb, ale w skrajnych sytuacjach (centrum miasta, daleki zasięg poszukiwań)
+        Może być pobrane nawet 15Mb danych.</p>
+
+        <h4>Aplikacja pokazuje trasę, która nie istnieje na mapie - dlaczego?</h4>
+        <p>Wygląd mapy pochodzi z serwisu GoogleMaps, natomiast trasę generujemy między innymi na podstawie
+        OpenStreetMaps (OSM).<br>
+        Zwłaszcza małe leśne ścieżki czasami nie są zaznaczone na mapie Google, ale zostaną wyświetlone przez aplikację,
+        ponieważ mogą być szczególnie atrakcyjne dla biegaczy.<br>
+        Podobnie zakres terenów zielonych uwzględniany w obliczeniach jest inny, niż ten wyświetlany na mapie.</p>
+
+        <h4>Dlaczego czasami trasy generowane przez aplikację są dziwne i nie pasują do kryteriów?</h4>
+        <p>Nieustannie pracujemy nad algorytmem generującym, ale niestety wciąż zdarzają się niezadowalające wyniki.<br>
+        Mamy nadzieję wyeliminować te problemy w przyszłości.</p>
+
+        <h4>Gdzie i jakie zgłaszać błędy?</h4>
+        <p>Aplikacja jest w fazie beta, dlatego błędy i niedociągnięcia są zupełnie naturalne.<br>
+        Wszelkie pomysły, uwagi i spostrzeżenia można przesłać przez opcję \"Zgłoś błąd\" z rozwijanego menu.<br>
+        Dziękujemy za pomoc w udoskonaleniu aplikacji!</p>
+
+    ]]></string>
+
+    <string name="about_text" translatable="false"><![CDATA[
+        <p>Regularne uprawianie sportu to świetna zabawa, ale każdemu w końcu nudzi się bieganie codziennie po tej samej trasie.<br>
+        Ta aplikacja wygeneruje trasę specjalnie dla Ciebie, skąd chcesz, dokąd chcesz i jaką chcesz!<br>
+        Dowiesz się też, czy aktualne warunki sprzyjają uprawianiu sportu, oraz jak przygotować się przed treningiem.</p>
+        <br>
+        <p>Kod aplikacji w większośći został napisany przez:<br>
+        <b>Kamila Choromańskiego i Kubę Łobodeckiego</b><br>
+        Dziękujemy wszystkim, którzy pomogli nam podczas jej tworzenia, w szczególności:<br>
+        Alicji Konkol, Konradowi Wojtysiakowi i Wiktorowi Łazarskiemu.
+        </p>
+    ]]></string>
+
+    <string name="air_quality">Air pollution</string>
+    <string name="thermal_conditions">Thermal conditions</string>
+    <string name="generating_or_end_point_not_choosed">Check generating method and end point location first</string>
+    <string name="to_long_route_warning">Route is too long. Please choose shorter one. Maximum length is 10 km</string>
+    <string name="downloading_problem">Problem with OSM data download. Please try again in some time</string>
+    <string name="route_already_saved">Route is already saved.</string>
+    <string name="generating_cancel">Cancel</string>
+    <string name="generating_progress_start">Initializing...</string>
+    <string name="slash_three" translatable="false">/3</string>
+    <string name="saved">Saved</string>
+    <string name="about">About</string>
+    <string name="sources">Data sources</string>
+
+    <string name="contributions_text" translatable="false"><![CDATA[
+        <p>
+            <b>OpenStreetMaps:</b> http://www.openstreetmap.org/copyright<br>
+            <b>OpenWheatherMap:</b> https://openweathermap.org<br>
+            <b>JAXA: </b> http://www.eorc.jaxa.jp/ALOS/en/aw3d30/<br>
+            <b>World Air Quality Index: </b> http://aqicn.org/api/<br>
+            <b>FreePik:</b> http://freepik.com<br>
+        </p>
+    ]]></string>
+
 </resources>

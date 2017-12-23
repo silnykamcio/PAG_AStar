@@ -21,6 +21,7 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
     private double heuristic;
     private int distance;
     private int crossCost;
+
     private LatLng coords;
     private HashSet<Long> edgeIds;
     private HashSet<GraphVertex> neighbours;

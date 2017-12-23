@@ -67,8 +67,7 @@ public class AStarAlgorithm {
 //        prevGreenLvl = e.getGreenLevel();
 //        return weight;
         if(e.getCrossings() != 0) {
-            //System.out.println(node.getCrossCost());
-            return e.getWeight() * node.getCrossCost();
+            return e.getWeight() * node.getCrossCost()*2;
         }
         else
             return e.getWeight();
