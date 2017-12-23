@@ -24,6 +24,8 @@ public class RouteInfo {
     private int denivelation;
     private int crossings;
 
+    private int id;
+
     private String name;
 
     private HashSet<String> goodWays;
@@ -101,9 +103,6 @@ public class RouteInfo {
             if(w.getMinHeight() < minHeightValue)
                 minHeightValue = w.getMinHeight();
 
-            System.out.println("max: " + w.getMaxHeight());
-            System.out.println("min: " + w.getMinHeight());
-
             posSlopeSum += w.getPositiveSlope();
             if(w.getPositiveSlope() != 0)
                 posSlopeCount++;
@@ -130,7 +129,6 @@ public class RouteInfo {
         this.maxNegSlope = (float)maxNegSlope;
         goodWaysLvl = (int)((goodWaysCounter/(float)length)*100);
         greenEnviroLvl =  (int)((greenEnviroCounter/(float)length)*100);
-        System.out.println(greenEnviroLvl);
     }
 
     public double getGreenEnviroLvl() {
@@ -221,5 +219,13 @@ public class RouteInfo {
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

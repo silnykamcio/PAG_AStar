@@ -1,9 +1,18 @@
 package com.geoida.progeo;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.Pair;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.geoida.progeo.Callbacks.OnThreadFinished;
 import com.geoida.progeo.OSM.OSMObjects.Node;
@@ -23,13 +32,16 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -46,7 +58,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -92,6 +103,68 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    public void showRouteInformation(GoogleMap map, TextView distance, TextView slope,
+                                     ProgressBar routeType, ProgressBar crossRoads, ProgressBar greenLevel){
+        Pair<LatLng, LatLng> bbox = routeInfo.boundingBox();
+        //map.addMarker(new MarkerOptions().position(routeCenter));
+
+        // Setting route in the center of map
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng((bbox.second.latitude - bbox.first.latitude) / 2 + bbox.first.latitude,
+                (bbox.second.longitude - bbox.first.longitude) / 2 + bbox.first.longitude));
+
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(14.0F);
+
+        map.moveCamera(center);
+        map.animateCamera(zoom);
+
+        map.setMinZoomPreference(11F);
+
+        RouteLineOptions opts = new RouteLineOptions(12, getResources().getColor(R.color.colorPrimaryDark));
+        RouteHandler route = new RouteHandler(opts);
+        ArrayList<LatLng> path = routeInfo.getPointList();
+        route.addRoute(path,0);
+        route.drawRoutes(map);
+
+        DecimalFormat prec = new DecimalFormat("0.0");
+
+            slope.setText("-");
+
+        distance.setText(prec.format(Math.round(routeInfo.getLength() / 100.00)/10.00));
+        barInitializer(greenLevel, (int)routeInfo.getGreenEnviroLvl(), 100, false);
+        barInitializer(routeType, (int)routeInfo.getGoodWaysLvl(), 100, false);
+        barInitializer(crossRoads, (int)(routeInfo.getCrossings()/(Math.round(routeInfo.getLength() / 100.00)/10.00)*10), 100, true);
+    }
+
+    public Bitmap createMapMarker(String iconName, int width, int height){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(getResources(),
+                getResources().getIdentifier(iconName, "drawable", getPackageName()));
+        return Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+    }
+
+    private void barInitializer(ProgressBar bar, int value, int max, boolean inversed) {
+        bar.setMax(max);
+        Drawable barDraw = bar.getProgressDrawable();
+
+        int color;
+        if (value < max/6)
+            color = inversed ? R.color.level_1 : R.color.level_6;
+        else if (value < max/6 * 2)
+            color = inversed ? R.color.level_2 : R.color.level_5;
+        else if (value < max/6 * 3)
+            color = inversed ? R.color.level_3 : R.color.level_4;
+        else if (value < max/6 * 4)
+            color = inversed ? R.color.level_4 : R.color.level_3;
+        else if (value < max/6 * 5)
+            color = inversed ? R.color.level_5 : R.color.level_2;
+        else
+            color = inversed ? R.color.level_6 : R.color.level_1;
+
+        barDraw.setColorFilter(getResources().getColor(color), PorterDuff.Mode.SRC_IN);
+        bar.setProgressDrawable(barDraw);
+        bar.setProgress(value);
+
+    }
+
     @Override
     public void OnThreadFinished(String id) {
         switch (id){
@@ -102,11 +175,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
             case "RouteComputed":{
                routeInfo = new RouteInfo(routeGenerator.getPathAsWays(0),routeGenerator.getPathAsPositions(0));
-                RouteLineOptions opts = new RouteLineOptions(15, Color.BLUE);
-                RouteHandler route = new RouteHandler(opts);
-                ArrayList<LatLng> path = routeInfo.getPointList();
-                route.addRoute(path,0);
-                route.drawRoutes(mMap);
+                Fragment SumFrag = new FragmentSummary();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                        .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out,
+                                android.R.anim.fade_in, android.R.anim.fade_out);
+                transaction.replace(R.id.map,SumFrag,"Summary");
+                transaction.addToBackStack(SumFrag.getTag());
+                transaction.commit();
+
                 break;
             }
         }
