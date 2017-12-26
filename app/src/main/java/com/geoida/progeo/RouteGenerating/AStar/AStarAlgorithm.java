@@ -39,7 +39,7 @@ public class AStarAlgorithm {
     }
 
     private ArrayList<GraphVertex> reconstructPath(GraphVertex startV, GraphVertex endV){
-        geomDist = SphericalUtil.computeDistanceBetween(startV.getCoords(),endV.getCoords());
+
         ArrayList<GraphVertex> path;
         path = new ArrayList<>();
         path.add(endV);
@@ -55,24 +55,15 @@ public class AStarAlgorithm {
         HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
         aIds.retainAll(bIds);
         GraphEdge e =  edges.get(aIds.iterator().next());
-//        int weight;
-//        if(prevGreenLvl > 0.5) {
-//            weight =  e.getWeight() * ((int) (1 + (1-e.getGreenLevel())));
+//        if(node.getGreenCost() > geomDist*0.5){
+//            return e.getWeight() * ((int) (1 + (1+e.getGreenLevel())*4));
 //        }
-//        else {
-//            weight =e.getWeight();
+//        if(node.getGreenCost() > geomDist*0.05){
+//            return e.getWeight() * ((int) (1 + (1-e.getGreenLevel())*4));
 //        }
-//        prevGreenLvl = e.getGreenLevel();
-//        return weight;
-        if(node.getGreenCost() > geomDist*0.5){
-            return e.getWeight() * ((int) (1 + (1+e.getGreenLevel())*4));
+        if(e.getCrossings() != 0) {
+            return e.getWeight() * node.getCrossCost()*2;
         }
-        else if(node.getGreenCost() > geomDist*0.05){
-            return e.getWeight() * ((int) (1 + (1-e.getGreenLevel())*4));
-        }
-//        if(e.getCrossings() != 0) {
-//            return e.getWeight() * node.getCrossCost()*2;
-//        }
         else
             return e.getWeight();
     }
@@ -99,6 +90,7 @@ public class AStarAlgorithm {
     }
 
     public ArrayList<GraphVertex> compute(GraphVertex startVertex, GraphVertex endVertex){
+        geomDist = SphericalUtil.computeDistanceBetween(startVertex.getCoords(),endVertex.getCoords());
         startVertex.changeCost(0);
         notVisited.add(startVertex);
         visited = new HashSet<GraphVertex>();
@@ -120,12 +112,12 @@ public class AStarAlgorithm {
 
                 if(tentativeScore < y.getCost()){
                     notVisited.add(y);
-                    y.setHeuristic(computeHeuristics(y,endVertex));
                     tentativeBetter = true;
                 }
                 if(tentativeBetter){
                     predecessors.put(y, x);
                     y.changeCost(tentativeScore);
+                    y.setHeuristic(tentativeScore + computeHeuristics(y,endVertex));
                     y.changeCrossCost(crossingsScore);
                     y.changeGreenCost(greenScore);
                 }

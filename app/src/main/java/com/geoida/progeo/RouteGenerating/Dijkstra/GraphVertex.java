@@ -32,6 +32,7 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
     public GraphVertex(Long id, LatLng coords)
     {
         this.cost = Double.MAX_VALUE;
+        this.heuristic = Double.MAX_VALUE;
         this.crossCost = 1;
         this.id = id;
         edgeIds = new HashSet<>();
@@ -66,9 +67,9 @@ public class GraphVertex implements Comparable<GraphVertex>, Comparator<GraphVer
 
     @Override
     public int compare(GraphVertex graphVertex, GraphVertex t1) {
-        if(graphVertex.getCost() < t1.getCost())
+        if(graphVertex.getHeuristic() < t1.getHeuristic())
             return -1;
-        else if(graphVertex.getCost() > t1.getCost())
+        else if(graphVertex.getHeuristic() > t1.getHeuristic())
             return 1;
         return 0;
     }
