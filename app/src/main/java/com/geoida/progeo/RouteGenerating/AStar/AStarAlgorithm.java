@@ -3,7 +3,6 @@ package com.geoida.progeo.RouteGenerating.AStar;
 import com.geoida.progeo.RouteGenerating.Dijkstra.Graph;
 import com.geoida.progeo.RouteGenerating.Dijkstra.GraphEdge;
 import com.geoida.progeo.RouteGenerating.Dijkstra.GraphVertex;
-import com.geoida.progeo.Utils.Stoper;
 import com.google.maps.android.SphericalUtil;
 
 import java.util.ArrayList;
@@ -21,11 +20,9 @@ import java.util.Set;
 public class AStarAlgorithm {
 
     private Map<Long, GraphEdge> edges;
-    private Set<GraphVertex> visited;
     private PriorityQueue<GraphVertex> notVisited;
     private Map<GraphVertex, GraphVertex> predecessors;
     private double geomDist;
-    private double prevGreenLvl;
 
     public AStarAlgorithm(Graph graph){
         edges = graph.getEdges();
@@ -101,7 +98,7 @@ public class AStarAlgorithm {
     public ArrayList<GraphVertex> compute(GraphVertex startVertex, GraphVertex endVertex){
         startVertex.changeCost(0);
         notVisited.add(startVertex);
-        visited = new HashSet<GraphVertex>();
+        Set<GraphVertex> visited = new HashSet<>();
         while(!notVisited.isEmpty()){
             GraphVertex x = findMin();
             if( x.equals(endVertex)){

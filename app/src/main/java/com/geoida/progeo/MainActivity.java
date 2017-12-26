@@ -48,7 +48,6 @@ import java.util.HashSet;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, OnThreadFinished {
 
-    private GoogleMap mMap;
     private ModelMaker modelMaker;
     private RouteGenerator routeGenerator;
     private GeneratingPreferences generatingPreferences;
@@ -64,13 +63,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
         LatLng position = new LatLng(52.210901, 20.975014);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
-        mMap.animateCamera(zoom);
+        googleMap.animateCamera(zoom);
 
         InputStream is = getResources().openRawResource(R.raw.test_ways_w);
         InputStream is2 = getResources().openRawResource(R.raw.test_ways_n);
@@ -79,6 +77,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             ObjectInputStream ois = new ObjectInputStream(is);
             ObjectInputStream ois2 = new ObjectInputStream(is2);
+            Object a = ois.readObject();
+            Object b = ois2.readObject();
             saveWays = (HashMap<Long, SaveWay>)ois.readObject();
             saveNodes = (HashSet<SaveNode>)ois2.readObject();
         } catch (IOException | ClassNotFoundException e) {
