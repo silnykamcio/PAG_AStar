@@ -61,10 +61,15 @@ public class AStarAlgorithm {
 //        if(node.getGreenCost() > geomDist*0.05){
 //            return e.getWeight() * ((int) (1 + (1-e.getGreenLevel())*4));
 //        }
-        if(e.getCrossings() != 0) {
-            return e.getWeight() * node.getCrossCost()*2;
-        }
-        else
+
+//        if(e.getCrossings() != 0) {
+//            return e.getWeight() * node.getCrossCost()*2;
+//        }
+
+//        if (node.getQualityCost() > geomDist*0.5){
+//            return (int)(e.getWeight() * e.getQuality());
+//        }
+//        else
             return e.getWeight();
     }
 
@@ -84,6 +89,13 @@ public class AStarAlgorithm {
         return e.getGreenLevel()*e.getDistance();
     }
 
+    private double getQualityWeight(GraphVertex node, GraphVertex target){
+        HashSet<Long> aIds = new HashSet<>(node.getEdgeIds());
+        HashSet<Long> bIds = new HashSet<>(target.getEdgeIds());
+        aIds.retainAll(bIds);
+        GraphEdge e =  edges.get(aIds.iterator().next());
+        return e.getQuality()*e.getDistance();
+    }
 
     private double computeHeuristics(GraphVertex n, GraphVertex end){
         return SphericalUtil.computeDistanceBetween(n.getCoords(),end.getCoords());
@@ -106,6 +118,7 @@ public class AStarAlgorithm {
                     continue;
                 }
                 Integer crossingsScore = x.getCrossCost() + getCrossWeight(x,y);
+                Double qualityScore = x.getQualityCost() + getQualityWeight(x,y);
                 Double greenScore = x.getGreenCost() + getGreenWeight(x,y);
                 Double tentativeScore = x.getCost() + getWeight(x,y);
                 Boolean tentativeBetter = false;
@@ -120,6 +133,7 @@ public class AStarAlgorithm {
                     y.setHeuristic(tentativeScore + computeHeuristics(y,endVertex));
                     y.changeCrossCost(crossingsScore);
                     y.changeGreenCost(greenScore);
+                    y.changeQualityCost(qualityScore);
                 }
             }
 
